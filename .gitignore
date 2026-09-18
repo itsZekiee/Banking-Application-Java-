@@ -1,0 +1,60 @@
+# =========================
+# General & OS
+# =========================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+
+# =========================
+# IDE & Editors
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+
+# =========================
+# Backend (Spring Boot / Maven / Java)
+# =========================
+backend/target/
+target/
+*.class
+application-local.yml
+**/application-local.yml
+backend/src/main/resources/application-local.yml
+
+# =========================
+# Mobile (Android / Gradle / Kotlin)
+# =========================
+mobile/.gradle/
+.gradle/
+mobile/build/
+mobile/app/build/
+**/build/
+local.properties
+**/local.properties
+*.apk
+*.aab
+*.ap_
+*.dex
+.cxx/
+**/cxx/
+captures/
+**/captures/
+.externalNativeBuild/
+.navigation/
+lint/
+signing/
+output.json
+
+# Secrets & Local Config
+*.keystore
+*.jks
+google-services.json
