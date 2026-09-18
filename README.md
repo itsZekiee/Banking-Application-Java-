@@ -53,7 +53,24 @@ CREATE DATABASE banking_db;
    - **Password**: `postgres` (or your local password)
    - **Database**: `banking_db`
 4. Click **Test Connection** to ensure connectivity.
-5. Click **OK**. Flyway will automatically create and populate tables (`users`, `accounts`, `transactions`) upon backend startup.
+5. In DataGrip's **Schemas** tab, make sure the `public` schema is checked/enabled.
+
+### 3. Populating the Schema & Seed Data
+You have two easy ways to initialize and seed the database:
+
+- **Option A (Automatic via Spring Boot Flyway)**:
+  Starting the backend application automatically executes all Flyway migrations in `backend/src/main/resources/db/migration/`:
+  - `V1__init_schema.sql`: creates `users`, `accounts`, and `transactions` tables with indexes and constraints.
+  - `V2__seed_data.sql`: populates sample test users (`johndoe`, `janesmith`), sample bank accounts, and transactions.
+
+- **Option B (Manual Execution in DataGrip / psql)**:
+  Open and run the standalone SQL script:
+  [`database/schema_and_seed.sql`](database/schema_and_seed.sql)
+  in DataGrip or via `psql`:
+  ```bash
+  psql -U postgres -d banking_db -f database/schema_and_seed.sql
+  ```
+  *Note for DataGrip: After running, right-click the `banking_db` datasource and click **Refresh (Ctrl+F5 / Cmd+F5)** to view tables and data under the `public` schema.*
 
 ---
 
