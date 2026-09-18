@@ -1,18 +1,18 @@
 # Banking Application Entity-Relationship Diagram (ERD)
 
-## 1. Relational Schema Diagram
+## 1. Relational Schema Diagram (MySQL / `pbc_db`)
 
 ```
  +-------------------------------------------------------+
  |                        users                          |
  +-------------------------------------------------------+
- | PK  id             BIGINT GENERATED ALWAYS AS IDENTITY|
+ | PK  id             BIGINT AUTO_INCREMENT              |
  |     username       VARCHAR(50)  NOT NULL UNIQUE       |
  |     email          VARCHAR(100) NOT NULL UNIQUE       |
  |     password_hash  VARCHAR(255) NOT NULL              |
  |     full_name      VARCHAR(100) NOT NULL              |
- |     created_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW()|
- |     updated_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW()|
+ |     created_at     TIMESTAMP    NOT NULL DEFAULT NOW()|
+ |     updated_at     TIMESTAMP    NOT NULL DEFAULT NOW()|
  +-------------------------------------------------------+
                             │ 1
                             │
@@ -21,15 +21,15 @@
  +-------------------------------------------------------+
  |                       accounts                        |
  +-------------------------------------------------------+
- | PK  id             BIGINT GENERATED ALWAYS AS IDENTITY|
+ | PK  id             BIGINT AUTO_INCREMENT              |
  |     account_number VARCHAR(20)  NOT NULL UNIQUE       |
  |     account_type   VARCHAR(20)  NOT NULL              |
- |     balance        NUMERIC(19,4) NOT NULL DEFAULT 0.0 |
+ |     balance        DECIMAL(19,4) NOT NULL DEFAULT 0.0 |
  |     currency       VARCHAR(3)   NOT NULL DEFAULT 'USD'|
  |     status         VARCHAR(20)  NOT NULL DEFAULT 'ACT'|
  | FK  user_id        BIGINT       NOT NULL              |
- |     created_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW()|
- |     updated_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW()|
+ |     created_at     TIMESTAMP    NOT NULL DEFAULT NOW()|
+ |     updated_at     TIMESTAMP    NOT NULL DEFAULT NOW()|
  +-------------------------------------------------------+
             │ 1                               │ 1
             │                                 │
@@ -38,15 +38,15 @@
  +-------------------------------------------------------+
  |                     transactions                      |
  +-------------------------------------------------------+
- | PK  id                    BIGINT GENERATED IDENTITY   |
+ | PK  id                    BIGINT AUTO_INCREMENT       |
  |     transaction_reference VARCHAR(64) NOT NULL UNIQUE |
  | FK  source_account_id     BIGINT NULL                 |
  | FK  target_account_id     BIGINT NULL                 |
- |     amount                NUMERIC(19,4) NOT NULL      |
+ |     amount                DECIMAL(19,4) NOT NULL      |
  |     transaction_type      VARCHAR(20) NOT NULL        |
  |     status                VARCHAR(20) NOT NULL        |
  |     description           VARCHAR(255) NULL           |
- |     timestamp             TIMESTAMPTZ NOT NULL DEFAULT|
+ |     timestamp             TIMESTAMP   NOT NULL DEFAULT|
  +-------------------------------------------------------+
 ```
 
@@ -55,18 +55,18 @@
 ## 2. Table Definitions & Constraints
 
 ### `users`
-- Primary Key: `id` (identity)
+- Primary Key: `id` (AUTO_INCREMENT)
 - Unique Constraints: `uk_users_username` on `username`, `uk_users_email` on `email`
 
 ### `accounts`
-- Primary Key: `id` (identity)
+- Primary Key: `id` (AUTO_INCREMENT)
 - Unique Constraints: `uk_accounts_account_number` on `account_number`
 - Foreign Key: `fk_accounts_user` (`user_id` -> `users.id`) ON DELETE RESTRICT
 - Check Constraint: `chk_account_balance_non_negative` (`balance >= 0`)
 - Indexes: `idx_accounts_user_id`, `idx_accounts_account_number`
 
 ### `transactions`
-- Primary Key: `id` (identity)
+- Primary Key: `id` (AUTO_INCREMENT)
 - Unique Constraints: `uk_transactions_reference` on `transaction_reference`
 - Foreign Keys:
   - `fk_transactions_source` (`source_account_id` -> `accounts.id`) ON DELETE RESTRICT

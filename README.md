@@ -1,6 +1,6 @@
 # Banking Application (Full-Stack Monorepo)
 
-A full-stack banking system featuring an Android mobile client built with Kotlin and Jetpack Compose (MVVM) and a Spring Boot backend in Java 17 connected to a PostgreSQL database.
+A full-stack banking system featuring an Android mobile client built with Kotlin and Jetpack Compose (MVVM) and a Spring Boot backend in Java 17 connected to a MySQL database.
 
 ---
 
@@ -14,6 +14,8 @@ banking-app/
 │   ├── architecture.md
 │   ├── erd.md
 │   └── api_spec.md
+├── database/         # Standalone SQL schema & seed scripts
+│   └── schema_and_seed.sql
 ├── .gitignore        # Root Git ignore covering both stacks
 └── README.md         # Monorepo setup and execution instructions
 ```
@@ -35,42 +37,42 @@ cd Banking-Application-Java-
 
 ## 🗄️ Database Setup & DataGrip Connection
 
-The backend requires a running PostgreSQL instance (PostgreSQL 15+ recommended).
+The backend requires a running MySQL instance (MySQL 8.0+ recommended).
 
 ### 1. Database Creation
-Create the database via `psql` or pgAdmin:
+Create the database via MySQL CLI, DataGrip, or MySQL Workbench:
 ```sql
-CREATE DATABASE banking_db;
+CREATE DATABASE IF NOT EXISTS pbc_db;
 ```
 
-### 2. Connect DataGrip to PostgreSQL
+### 2. Connect DataGrip to MySQL
 1. Open **DataGrip** (or Database tool window in IntelliJ IDEA).
-2. Click **+ (New)** -> **Data Source** -> **PostgreSQL**.
+2. Click **+ (New)** -> **Data Source** -> **MySQL**.
 3. Configure the connection settings:
    - **Host**: `localhost`
-   - **Port**: `5432`
-   - **User**: `postgres` (or your local user)
-   - **Password**: `postgres` (or your local password)
-   - **Database**: `banking_db`
-4. Click **Test Connection** to ensure connectivity.
-5. In DataGrip's **Schemas** tab, make sure the `public` schema is checked/enabled.
+   - **Port**: `3306`
+   - **User**: `root` (or your local MySQL user)
+   - **Password**: `root` (or your local MySQL password)
+   - **Database**: `pbc_db`
+4. Click **Test Connection** to ensure connectivity (download drivers if prompted).
+5. In DataGrip's **Schemas** tab, ensure `pbc_db` is checked/enabled.
 
 ### 3. Populating the Schema & Seed Data
 You have two easy ways to initialize and seed the database:
 
 - **Option A (Automatic via Spring Boot Flyway)**:
   Starting the backend application automatically executes all Flyway migrations in `backend/src/main/resources/db/migration/`:
-  - `V1__init_schema.sql`: creates `users`, `accounts`, and `transactions` tables with indexes and constraints.
+  - `V1__init_schema.sql`: creates `users`, `accounts`, and `transactions` tables with indexes and constraints in `pbc_db`.
   - `V2__seed_data.sql`: populates sample test users (`johndoe`, `janesmith`), sample bank accounts, and transactions.
 
-- **Option B (Manual Execution in DataGrip / psql)**:
+- **Option B (Manual Execution in DataGrip / MySQL CLI)**:
   Open and run the standalone SQL script:
   [`database/schema_and_seed.sql`](database/schema_and_seed.sql)
-  in DataGrip or via `psql`:
+  in DataGrip, MySQL Workbench, or via `mysql`:
   ```bash
-  psql -U postgres -d banking_db -f database/schema_and_seed.sql
+  mysql -u root -p pbc_db < database/schema_and_seed.sql
   ```
-  *Note for DataGrip: After running, right-click the `banking_db` datasource and click **Refresh (Ctrl+F5 / Cmd+F5)** to view tables and data under the `public` schema.*
+  *Note for DataGrip: After running, right-click the `pbc_db` datasource and click **Refresh (Ctrl+F5 / Cmd+F5)** to view tables and data.*
 
 ---
 

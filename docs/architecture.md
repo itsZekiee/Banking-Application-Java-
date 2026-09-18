@@ -20,7 +20,7 @@ The Banking Application follows a clean client-server architecture designed for 
                │ JDBC / Flyway
                ▼
 ┌───────────────────────────────┐
-│      PostgreSQL Database      │
+│       MySQL Database          │
 │ (users, accounts, transactions│
 └───────────────────────────────┘
 ```
@@ -84,4 +84,4 @@ The mobile client is built on Modern Android Architecture with **MVVM (Model-Vie
 |---|---|---|
 | Mobile Client | Kotlin, Jetpack Compose, Retrofit, Coroutines | Android Studio |
 | Backend API | Java 17, Spring Boot 3, Spring Data JPA, Flyway | IntelliJ IDEA |
-| Database | PostgreSQL 15+ | DataGrip |
+| Database | MySQL 8.0+ | DataGrip / MySQL Workbench |
