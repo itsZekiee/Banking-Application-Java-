@@ -65,14 +65,16 @@ You have two easy ways to initialize and seed the database:
   - `V1__init_schema.sql`: creates `users`, `accounts`, and `transactions` tables with indexes and constraints in `pbc_db`.
   - `V2__seed_data.sql`: populates sample test users (`johndoe`, `janesmith`), sample bank accounts, and transactions.
 
-- **Option B (Manual Execution in DataGrip / MySQL CLI)**:
-  Open and run the standalone SQL script:
-  [`database/schema_and_seed.sql`](database/schema_and_seed.sql)
-  in DataGrip, MySQL Workbench, or via `mysql`:
-  ```bash
-  mysql -u root -p pbc_db < database/schema_and_seed.sql
-  ```
-  *Note for DataGrip: After running, right-click the `pbc_db` datasource and click **Refresh (Ctrl+F5 / Cmd+F5)** to view tables and data.*
+- **Option B (Manual Execution in phpMyAdmin / DataGrip / MySQL CLI)**:
+  - **In phpMyAdmin (`http://localhost/phpmyadmin`)**:
+    1. Click on **`pbc_db`** on the left sidebar (or navigate to `http://localhost/phpmyadmin/index.php?route=/database/structure&db=pbc_db`).
+    2. Click the **Import** tab at the top.
+    3. Choose the [`database/schema_and_seed.sql`](database/schema_and_seed.sql) file and click **Import** (or paste its content into the **SQL** tab and click **Go**).
+    4. You will see the `users`, `accounts`, and `transactions` tables created and seeded with sample data!
+  - **In DataGrip / MySQL CLI**:
+    ```bash
+    mysql -u root -p pbc_db < database/schema_and_seed.sql
+    ```
 
 ---
 
