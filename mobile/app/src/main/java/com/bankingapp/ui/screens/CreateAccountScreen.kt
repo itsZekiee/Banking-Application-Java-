@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -229,29 +230,41 @@ private fun Header(step: Int, onBack: () -> Unit, onReset: () -> Unit) {
 private fun ProgressHeader(step: Int) {
     Surface(color = Color.White, shadowElevation = 1.dp) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 28.dp, vertical = 18.dp),
-            verticalAlignment = Alignment.Top
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.Center
         ) {
             ProgressNode("Account Type", 1, step >= 1, step > 1, Modifier.weight(1f))
+            ProgressConnector(completed = step > 1, modifier = Modifier.weight(0.55f))
             ProgressNode("Credentials", 2, step >= 2, step > 2, Modifier.weight(1f))
+            ProgressConnector(completed = step > 2, modifier = Modifier.weight(0.55f))
             ProgressNode("Documents", 3, step >= 3, false, Modifier.weight(1f))
         }
     }
 }
 
 @Composable
+private fun ProgressConnector(completed: Boolean, modifier: Modifier) {
+    HorizontalDivider(
+        modifier = modifier.padding(top = 20.dp),
+        thickness = 3.dp,
+        color = if (completed) BrandGreen else BorderGray
+    )
+}
+
+@Composable
 private fun ProgressNode(label: String, number: Int, active: Boolean, complete: Boolean, modifier: Modifier) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
-            modifier = Modifier.size(48.dp).background(if (active) BrandGreen else Color.White, CircleShape)
+            modifier = Modifier.size(40.dp).background(if (active) BrandGreen else Color.White, CircleShape)
                 .border(2.dp, if (active) BrandGreen else BorderGray, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             if (complete) Icon(Icons.Filled.Check, contentDescription = null, tint = Color.White)
-            else Text("$number", color = if (active) Color.White else TextMuted, fontWeight = FontWeight.Bold)
+            else Text("$number", color = if (active) Color.White else TextMuted, fontWeight = FontWeight.Bold, fontSize = 13.sp)
         }
-        Spacer(Modifier.height(6.dp))
-        Text(label, color = if (active) BrandGreen else TextMuted, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
+        Spacer(Modifier.height(4.dp))
+        Text(label, color = if (active) BrandGreen else TextMuted, fontWeight = FontWeight.SemiBold, fontSize = 10.sp, maxLines = 1)
     }
 }
 

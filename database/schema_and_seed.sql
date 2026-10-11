@@ -62,14 +62,16 @@ CREATE TABLE IF NOT EXISTS transactions (
 INSERT IGNORE INTO users (id, username, email, password_hash, full_name, created_at, updated_at)
 VALUES
     (1, 'johndoe', 'john@example.com', 'Password123', 'John Doe', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 'janesmith', 'jane@example.com', 'Password123', 'Jane Smith', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (2, 'janesmith', 'jane@example.com', 'Password123', 'Jane Smith', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 'user_test01', 'user01@gmail.com', 'user_test01', 'User Test01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Insert Initial Accounts
 INSERT IGNORE INTO accounts (id, account_number, account_type, balance, currency, status, user_id, created_at, updated_at)
 VALUES
     (1, '1234567890', 'SAVINGS', 1500.0000, 'USD', 'ACTIVE', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (2, '9876543210', 'CHECKING', 3200.5000, 'USD', 'ACTIVE', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, '5555666677', 'CHECKING', 850.0000, 'USD', 'ACTIVE', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (3, '5555666677', 'CHECKING', 850.0000, 'USD', 'ACTIVE', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, '1000000003', 'CHECKING', 10000.0000, 'PHP', 'ACTIVE', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Insert Initial Transactions
 INSERT IGNORE INTO transactions (id, transaction_reference, source_account_id, target_account_id, amount, transaction_type, status, description, timestamp)
