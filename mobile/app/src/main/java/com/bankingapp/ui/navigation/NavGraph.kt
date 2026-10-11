@@ -84,6 +84,7 @@ fun BankingNavGraph(
             AccountListScreen(
                 userId = currentUserId,
                 viewModel = accountViewModel,
+                transactionViewModel = transactionViewModel,
                 onSelectAccount = { accountNumber ->
                     navController.navigate("${Screen.BalanceInquiry.route}?acc=$accountNumber")
                 },
