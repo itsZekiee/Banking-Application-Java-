@@ -1,5 +1,9 @@
 package com.bankingapp.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -49,9 +56,11 @@ fun AccountListScreen(
     modifier: Modifier = Modifier
 ) {
     val listState by viewModel.accountListState.collectAsState()
+    var contentVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(userId) {
         viewModel.fetchAccountsByUserId(userId)
+        contentVisible = true
     }
 
     Column(
@@ -59,10 +68,15 @@ fun AccountListScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        SectionHeader(
-            title = "My Accounts",
-            subtitle = "Manage your accounts and quick operations"
-        )
+        AnimatedVisibility(
+            visible = contentVisible,
+            enter = fadeIn(tween(500)) + slideInVertically(tween(500)) { -it / 3 }
+        ) {
+            SectionHeader(
+                title = "My Accounts",
+                subtitle = "Manage your accounts and quick operations"
+            )
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         when (val state = listState) {
@@ -82,14 +96,20 @@ fun AccountListScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(state.accounts) { account ->
-                            AccountCardItem(
-                                account = account,
-                                onClick = { onSelectAccount(account.accountNumber) },
-                                onDeposit = { onNavigateToDeposit(account.accountNumber) },
-                                onWithdraw = { onNavigateToWithdraw(account.accountNumber) },
-                                onTransfer = { onNavigateToTransfer(account.accountNumber) },
-                                onHistory = { onNavigateToHistory(account.accountNumber) }
-                            )
+                            AnimatedVisibility(
+                                visible = contentVisible,
+                                enter = fadeIn(tween(650)) +
+                                    slideInVertically(tween(650)) { it / 2 }
+                            ) {
+                                AccountCardItem(
+                                    account = account,
+                                    onClick = { onSelectAccount(account.accountNumber) },
+                                    onDeposit = { onNavigateToDeposit(account.accountNumber) },
+                                    onWithdraw = { onNavigateToWithdraw(account.accountNumber) },
+                                    onTransfer = { onNavigateToTransfer(account.accountNumber) },
+                                    onHistory = { onNavigateToHistory(account.accountNumber) }
+                                )
+                            }
                         }
                     }
                 }
@@ -98,10 +118,15 @@ fun AccountListScreen(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        PrimaryButton(
-            text = "+ Open Another Account",
-            onClick = onNavigateToCreateAccount
-        )
+        AnimatedVisibility(
+            visible = contentVisible,
+            enter = fadeIn(tween(800))
+        ) {
+            PrimaryButton(
+                text = "+ Open Another Account",
+                onClick = onNavigateToCreateAccount
+            )
+        }
     }
 }
 

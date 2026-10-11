@@ -20,6 +20,7 @@ import com.bankingapp.ui.screens.DepositScreen
 import com.bankingapp.ui.screens.LoginScreen
 import com.bankingapp.ui.screens.TransactionHistoryScreen
 import com.bankingapp.ui.screens.TransferScreen
+import com.bankingapp.ui.screens.WelcomeScreen
 import com.bankingapp.ui.screens.WithdrawScreen
 import com.bankingapp.viewmodel.AccountViewModel
 import com.bankingapp.viewmodel.AuthViewModel
@@ -37,16 +38,27 @@ fun BankingNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route,
+        startDestination = Screen.Welcome.route,
         modifier = modifier
     ) {
+        composable(Screen.Welcome.route) {
+            WelcomeScreen(
+                onOpenAccount = {
+                    navController.navigate(Screen.CreateAccount.route)
+                },
+                onLogIn = {
+                    navController.navigate(Screen.Login.route)
+                }
+            )
+        }
+
         composable(Screen.Login.route) {
             LoginScreen(
                 viewModel = authViewModel,
                 onLoginSuccess = { userId ->
                     currentUserId = userId
                     navController.navigate(Screen.AccountList.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
+                        popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 },
                 onNavigateToRegister = {
@@ -63,7 +75,8 @@ fun BankingNavGraph(
                     navController.navigate(Screen.AccountList.route) {
                         popUpTo(Screen.CreateAccount.route) { inclusive = true }
                     }
-                }
+                },
+                onBack = { navController.popBackStack() }
             )
         }
 

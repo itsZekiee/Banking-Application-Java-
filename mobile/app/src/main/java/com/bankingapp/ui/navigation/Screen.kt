@@ -1,6 +1,7 @@
 package com.bankingapp.ui.navigation
 
 sealed class Screen(val route: String) {
+    object Welcome : Screen("welcome")
     object Login : Screen("login")
     object CreateAccount : Screen("create_account")
     object AccountList : Screen("account_list")

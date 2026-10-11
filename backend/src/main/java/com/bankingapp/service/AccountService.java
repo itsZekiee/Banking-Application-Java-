@@ -37,7 +37,7 @@ public class AccountService {
         account.setAccountNumber(generateUniqueAccountNumber());
         account.setAccountType(request.getAccountType());
         account.setBalance(request.getInitialDeposit() != null ? request.getInitialDeposit() : BigDecimal.ZERO);
-        account.setCurrency(request.getCurrency() != null ? request.getCurrency() : "USD");
+        account.setCurrency(request.getCurrency() != null ? request.getCurrency() : "PHP");
         account.setStatus(AccountStatus.ACTIVE);
         account.setUser(user);
 
